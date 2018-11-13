@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source/">
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://imsun.github.io">
+
+
+
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+
+
+    <link rel="dns-prefetch" href="https://lib.baomitu.com">
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            JVM类加载与一些使用技巧 | 
+        
+        年轻人啊不要熬夜
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.jpg">
+    <link rel="icon" href="/img/favicon.jpg">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" itemprop="description" content="">
+    <meta name="keywords" content=",Java,JVM,虚拟机">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/material.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/style.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/prettify.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/prettify/tomorrow-night-eighties.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <style>
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            src: url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.eot);
+            src: local('Roboto'),local('Roboto-Normal'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.eot?#iefix) format('embedded-opentype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.woff2) format('woff2'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.woff) format('woff'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.ttf) format('truetype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.svg#Roboto) format('svg')
+        }
+
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: regular;
+            src: url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.eot);
+            src: local('Roboto'),local('Roboto-Normal'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.eot?#iefix) format('embedded-opentype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.woff2) format('woff2'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.woff) format('woff'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.ttf) format('truetype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.svg#Roboto) format('svg')
+        }
+
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            src: url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.eot);
+            src: local('Roboto'),local('Roboto-Normal'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.eot?#iefix) format('embedded-opentype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.woff2) format('woff2'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.woff) format('woff'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.ttf) format('truetype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.svg#Roboto) format('svg')
+        }
+    </style>
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/material-icons.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="年轻人啊不要熬夜">
+    <meta name="msapplication-starturl" content="https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="年轻人啊不要熬夜">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/favicon.jpg">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+        
+            <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="JVM类加载与一些使用技巧 | 年轻人啊不要熬夜">
+    <meta property="og:image" content="/img/favicon.jpg">
+    <meta property="og:description" content="">
+    <meta property="og:article:tag" content="Java"> <meta property="og:article:tag" content="JVM"> <meta property="og:article:tag" content="虚拟机"> 
+
+    
+        <meta property="article:published_time" content="Fri Oct 28 2016 01:31:10 GMT+0800">
+        <meta property="article:modified_time" content="Mon Apr 02 2018 00:17:31 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html",
+    "headline": "JVM类加载与一些使用技巧",
+    "datePublished": "Fri Oct 28 2016 01:31:10 GMT+0800",
+    "dateModified": "Mon Apr 02 2018 00:17:31 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "W-angler",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "A monad is just a monoid in the category of endofunctors, what's the problem?"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "年轻人啊不要熬夜",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.jpg"
+        }
+    },
+    "keywords": ",Java,JVM,虚拟机",
+    "description": "",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+        <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-89109775-1', 'auto');ga('send', 'pageview');
+</script>
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#类加载"><span class="post-toc-number">1.</span> <span class="post-toc-text">类加载</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#类加载器（ClassLoader）"><span class="post-toc-number">2.</span> <span class="post-toc-text">类加载器（ClassLoader）</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#类加载时的初始化"><span class="post-toc-number">3.</span> <span class="post-toc-text">类加载时的初始化</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用技巧"><span class="post-toc-number">4.</span> <span class="post-toc-text">使用技巧</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                JVM类加载与一些使用技巧
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar">
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>W-angler</strong>
+        <span>10月 28, 2016</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC0ElEQVR42u3aS24bQQwFQN//0skBDE3eI+VA7q5ZCdZAzWovCH6+/lz5fGFjY2NjY2NjY2N/JPsrfl7+3LdvX73//ObzKfuYsbGxsc9mJ8fkx7/6dn9xm5ixsbGxb2A/A55DTN5/dVZyBcnv/CNObGxsbOxR0koY7QVhY2NjY7+XnTeM8kQ4uxRsbGxs7KRBMzt+0yRKSD/eS8PGxsb+eHY+NP2cz/91vo2NjY39wez2aS8lf/85XeULPS8jx8bGxj6U3Qb63jHA5rKSGLCxsbFvYM+Wdd5VPMxaV/klYmNjY9/Abke2e16OScYPyVAZGxsb+wb2z5UQ+YLOZtz7hpUdbGxs7CPY7UJk3tBPFm7adFUnOWxsbOxD2Unqeg43LzM2Lf68eVTPt7GxsbF/Obtt3LctnjZFtReRFCHY2NjYZ7PbwiNJP7Nw88Jm+HdsbGzsQ9n5AbOhbzt4qAuMIH5sbGzsG9h5EmoLj1lzf5MysbGxsbFn1DzJzf6eDw+KUgQbGxv7IPZzQyc5eNMSykuUthWFjY2NfQN71h7ah5W0ijbDg3rQi42Njf1r2bP1x1kjKbmsdg2oiA0bGxv7UHbSxJkt5cxGCJtips7b2NjY2Eewk0ZSMnbdlxY/vpSJjY2NfQF7tl6TDxhmF51f8WplBxsbG/sI9iw55eXHfoFy1k7CxsbGvoHdfm7b/cnVtKe0Qw5sbGzs29h1eigLkg2m/VdhY2Nj38NOGHmbKf+2HQAPx8/Y2NjYh7Lbpx3EJu2n2eC2PhcbGxv7UPa7mvVtqZCUN5vmFzY2NvZt7PbI/cJl3RIapT1sbGzs29h5Emob95sBw+ZEbGxsbOzZqCD5tdn7m9YVNjY2Nva+ebQpJzYLQ9jY2Nj3sJMffcYnQRRLNvF1R4UQNjY29tHsWeMmOb4dMCSlyzAGbGxs7EPZ9zzY2NjY2NjY2NjYH/P8Bbj/NDZ9U1U3AAAAAElFTkSuQmCC">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/JVM/">JVM</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Java/">Java</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/虚拟机/">虚拟机</a>
+    </li></ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=JVM类加载与一些使用技巧&url=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html&pic=https://w-angler.com/img/favicon.jpg&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=JVM类加载与一些使用技巧&url=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html&via=W-angler" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+        <a class="post_share-link" href="https://www.linkedin.com/shareArticle?mini=true&url=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html&title=JVM类加载与一些使用技巧" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 LinkedIn
+            </li>
+        </a>
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=年轻人啊不要熬夜&title=JVM类加载与一些使用技巧&summary=&pics=https://w-angler.com/img/favicon.jpg&url=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+        <a class="post_share-link" href="https://telegram.me/share/url?url=https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/index.html&text=JVM类加载与一些使用技巧" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Telegram
+            </li>
+        </a>
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>　　JVM提供了强大的类加载机制，使得在java程序运行时，可以动态地加载、卸载不同的类。JVM提供了三种不同的类加载器，我们也可以继承ClassLoader来实现自己的类加载器（Tomcat实现了自己的类加载器来加载不同应用的依赖）。这给了我们很大的灵活性，而且利用类加载时的初始化动作，可以实现一些很有趣的技巧。</p>
+<h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>　　<code>定义</code>：JVM把类文件加载到内存，并进行字节码校验、数据转换和解析、类初始化等操作，最终形成可以被虚拟机直接使用的java类型的过程。</p>
+<p>　　JVM的一个特性是，它不是启动时把所有的<code>.class</code>文件加载到内存中，而是采取动态加载的方式，延迟到需要时再加载（类似Windows程序的动态链接库），而当JVM中不存在某个类的Class对象的引用时，则这个类将会被卸载。</p>
+<p>　　根据<code>JVM规范</code>第五章（地址：<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-5.html" target="_blank" rel="noopener">Chapter 5. Loading, Linking, and Initializing</a>），类加载的过程可以表示为下图（原谅我用visio随便画的丑图），图中有一定的顺序，但是有些阶段JVM规范并未规定一定要这样，这里只是直观上的顺序：</p>
+<p><img src="1.png" alt="Loading, Linking, and Initializing"></p>
+<p>　　接下来一一讲解一下每个过程：</p>
+<ul>
+<li><code>加载(Loading)</code>　通过类的全限定名获取此类的二进制字节流→<br>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构→在堆中生成一个代表这个类的java.lang.Class对象作为方法区这些数据的访问入口。加载部分可以通过JVM自带的类加载器完成，也可以通过用户自定义的类加载器完成，由此，用户可以在这个阶段进行很多的定制，例如在<code>Tomcat</code>中自定义了类加载器，加载<code>WEB-INF/lib</code>和<code>WEB-INF/classes</code>下的类。</li>
+<li><code>验证(Verification)</code>　连接阶段的第一步，确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。在JVM规范中，这个部分只有很简略笼统的描述（几行，只规定了在验证错误时需要抛出<code>java.lang.VerifyError</code>），所以具体实现依赖于JVM的实现，但一般都会进行这些操作：<ul>
+<li>文件格式验证：验证字节流是否符合JVM规范，并且要满足当前JVM的版本运行需求；</li>
+<li>元数据验证：进行语义分析，验证字节流内容是否符合Java规范；</li>
+<li>字节码验证：数据流、控制流分析，保证语义合法、合乎逻辑；</li>
+<li>符号引用验证：在将符号引用转化为直接引用时，验证合法性，保证解析阶段的正确性。</li>
+</ul>
+</li>
+<li><code>准备(Preparation)</code>　为类变量（static修饰）分配内存并设置初始值。这里的初始值并不是初始化的值，而是该变量的数据类型的默认零值。但有一个例外，如果这个类变量同时也被final修饰，那么在编译时，就会直接为这个常量赋上目标值。</li>
+<li><code>解析(Resolution)</code>　虚拟机将常量池中的符号引用替换为直接引用，JVM规范中，规定的解析动作有:<ul>
+<li>类或接口解析</li>
+<li>类字段解析</li>
+<li>类方法解析</li>
+<li>接口方法解析</li>
+<li>方法类型和方法句柄解析</li>
+<li>调用现场符号（Call site specifier）解析</li>
+</ul>
+</li>
+<li><code>访问控制(Access Control)</code>　根据访问控制符（<code>public</code>、<code>protected</code>、<code>private</code>以及默认的包访问权限），限制方法调用和子类的方法重写等的访问权限。</li>
+<li><code>覆盖(Overriding)</code>　子类覆写父类方法（根据JVM实现，在<code>虚函数表</code>中指向子类的方法入口）。</li>
+<li><code>初始化(Initialization)</code>　执行类构造器的<code>&lt;clinit&gt;()</code>方法，进行类变量和其他资源的初始化。Java虚拟机规范规定了有<code>6</code>种情况必须立即对类进行初始化（加载、验证、准备必须在此之前完成）:<ul>
+<li>调用<code>new</code>、<code>getstatic</code>、<code>putstatic</code>、<code>invokestatic</code>指令时（使用new关键字创建对象、读取类的静态字段、设置类的静态字段、调用类的静态方法）；</li>
+<li>当使用Java 7增加的动态语言支持时，如果一个<code>java.lang.invoke.MethodHandle</code>实例最终的解析结果为<code>REF_getStatic</code>、<code>REF_putStatic</code>、<code>REF_invokeStatic</code>的方法句柄，并且这个方法句柄对应的类没有进行初始化时；</li>
+<li>通过反射机制对类进行调用，其未被初始化时；</li>
+<li>初始化一个类，其父类未初始化时，初始化父类；</li>
+<li>初始化实现了包含<code>非抽象</code>、<code>非静态</code>方法的接口的类时（对比了一下，这个应该是Java 8增加的，应该是指<code>default方法</code>）；</li>
+<li>指定的执行主类（含main方法的那个类）在虚拟机启动时。</li>
+</ul>
+</li>
+<li><code>使用(Using)</code>　在JVM中使用加载好的类。</li>
+<li><code>卸载(Unloading)</code>　当JVM中不存在某个类的Class对象的引用时，则这个类将会被卸载。</li>
+<li><code>连接(Linking)</code>　包含验证、准备、解析、访问控制、覆盖阶段。</li>
+</ul>
+<h1 id="类加载器（ClassLoader）"><a href="#类加载器（ClassLoader）" class="headerlink" title="类加载器（ClassLoader）"></a>类加载器（ClassLoader）</h1><p>　　类加载器是一个用来加载类文件的Java类或者JVM中的C++程序，在运行时动态加载所需的类。类加载器可以加载文件系统、网络或其他来源的类文件，就是说，不管你的类在哪，只要类加载器能够得到它的字节流（无论是文件读取、网络下载），就能被加载到JVM中。</p>
+<p>　　在JVM中，有三类默认的类加载器：</p>
+<ul>
+<li><p><code>Bootstrap类加载器</code>　它负责加载虚拟机的核心类库，如java.lang.*等。它是所有类加载器的父加载器。Bootstrap类加载器没有任何父类加载器，它依赖于底层操作系统，属于虚拟机的实现的一部分，它并没有继承java.lang.ClassLoader类。</p>
+</li>
+<li><p><code>Extension类加载器</code>将类加载请求先委托给它的父加载器，也就是Bootstrap类加载器，如果没有成功加载的话，再从<code>jre/lib/ext</code>目录下或者<code>java.ext.dirs</code>系统属性定义的目录下加载类。在oracle的JVM实现里，是<code>sun.misc.Launcher$AppClassLoader</code>类，继承自java.lang.ClassLoader类，</p>
+</li>
+<li><p><code>Application类加载器</code>　也叫System类加载器。它负责从<code>CLASSPATH</code>环境变量中加载某些应用相关的类，CLASSPATH环境变量通常由-classpath或-cp命令行选项来定义，或者是JAR中的Manifest的classpath属性。Application类加载器是Extension类加载器的子加载器。在oracle的JVM实现里，是<code>sun.misc.Launcher$ExtClassLoader</code>类，继承自java.lang.ClassLoader类。</p>
+</li>
+</ul>
+<p>　　除了以上的三种类加载器，还有一种比较特殊的类型，线程上下文类加载器，这里就不赘述，可以查看这篇博客：<a href="http://blog.csdn.net/zhoudaxia/article/details/35897057" target="_blank" rel="noopener">线程上下文类加载器</a> 。</p>
+<p>　　然而，类加载这个部分有趣的地方，并不是这些自带的类加载器，而是那些可以自己定制的地方。因为类加载器并不管字节流的来源，只要能通过验证就可以了。所以，你可以通过自定义的类加载器，从互联网的任何一个地方加载一个类到你本地的JVM中；你可以加载经过加密的字节码，在加载的过程中解密，如果是经过非对称加密（<code>RSA</code>、<code>ECC</code>等）的话，便可以让不信任的人无法运行加密过的Java程序；你可以在运行时，根据环境、需求的不同，加载不同的类到JVM中；你还可以通过使用不同的类加载器加载同一个类文件，这样可以产生一些神奇的效果——这个类文件的两次加载产生的类是不同的；……</p>
+<p>　　类加载还有一个<code>双亲委托机制</code>，就是，当加载一个类时，类加载器的调用顺序是Bootstrap类加载器→Extension类加载器→Application类加载器→自己定义的类加载器。这样，形成了一个树状结构，除了<code>Bootstrap类加载器</code>外，都有一个父节点（这个和类的继承树不一样，这里的双亲并不是继承的，有兴趣的可以查看<code>Open JDK</code>中的实现,其实很简单，链接：<a href="http://hg.openjdk.java.net/jdk8u/jdk8u/jdk/file/f7be58eb30bc/src/share/classes/java/lang/ClassLoader.java" target="_blank" rel="noopener">ClassLoader.java</a>）。当前面的类加载器加载不了，便会委托给下一级，如果都加载不了，便会抛出<code>ClassNotFoundException</code>。</p>
+<p>　　实现自己的类加载器很简单，只需要继承<code>java.lang.ClassLoader</code>，并且覆盖<code>findClass</code>或者<code>loadClass</code>方法就好了。你可能会问，为什么会有俩个覆盖选择？这个就涉及到java的兼容性黑历史了。ClassLoader在Java最初的版本中就有了，但是，委托机制是在1.2才加入的，在此之前，自定义类加载器是通过覆盖<code>loadClass</code>实现的，而之后，为了兼容性，便加入了<code>findClass</code>来供用户覆盖，这样就可以保证委托机制。区别在于，覆盖<code>loadClass</code>方法，加载时不会委托，而覆盖<code>findClass</code>则会先委托，加载不了再通过自定义加载器加载。现在不建议通过覆盖<code>loadClass</code>的方法来实现。这个委托机制其实还有一些问题，这里就不细说了，具体可以搜索<code>Java模块化</code>方面的信息。</p>
+<p>　　接下来我们通过一个简单的例子来理解：</p>
+<p><code>MyLoader.java</code></p>
+<pre><code>import java.io.FileInputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+/**
+ * 自定义类加载器，为了简单，加载一个特定的类。&lt;br&gt;
+ * 自定义必须覆盖&lt;code&gt;findClass&lt;/code&gt;或者&lt;code&gt;loadClass&lt;/code&gt;方法。
+ * @author w-angler
+ *
+ */
+public class MyLoader extends ClassLoader {
+    /**
+     * 获取字节流，假设在F盘下有一个hhh.class
+     * @param name
+     * @return
+     */
+    private byte[] load(){
+        try(FileInputStream is=new FileInputStream(&quot;F:\\hhh.class&quot;)){
+            FileChannel channel=is.getChannel();
+            ByteBuffer buffer=ByteBuffer.allocate((int)channel.size());
+            channel.read(buffer);
+            return buffer.array();
+        }catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @Override
+    public Class&lt;?&gt; findClass(String name){
+        byte[] b=load();
+        return defineClass(&quot;hhh&quot;,b, 0, b.length);
+    }
+}
+</code></pre><p><code>TestClassLoader.java</code></p>
+<pre><code>import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+public class TestClassLoader {
+    public static void main(String[] args) throws Exception {
+        //Nashorn是Java 8添加的JavaScript引擎，它在ext目录下
+        ScriptEngineManager scriptEngineManager = new ScriptEngineManager(); 
+        ScriptEngine nashorn = scriptEngineManager.getEngineByName(&quot;nashorn&quot;);
+        MyLoader loader=new MyLoader();
+        Class&lt;?&gt; cls=loader.loadClass(&quot;2333，这个参数其实没用了&quot;);
+        System.out.println(String.class.getClassLoader());
+        System.out.println(nashorn.getClass().getClassLoader());
+        System.out.println(TestClassLoader.class.getClassLoader());
+        System.out.println(cls.getClassLoader());
+    }
+}
+</code></pre><p><code>结果：</code></p>
+<pre><code>null
+sun.misc.Launcher$ExtClassLoader@42a57993
+sun.misc.Launcher$AppClassLoader@73d16e93
+MyLoader@64bf3bbf 
+</code></pre><p>　　从结果可以看出，基本库中的类通过<code>Bootstrap类加载器</code>加载，所以输出为null；在ext目录下的类，通过<code>Extension类加载器</code>加载；在classpath中的类，通过<code>Application类加载器</code>；当这些类都无法加载时，采用自定义的类加载器（如果有）加载。</p>
+<h1 id="类加载时的初始化"><a href="#类加载时的初始化" class="headerlink" title="类加载时的初始化"></a>类加载时的初始化</h1><p>　　在类加载时，会进行一些初始化的操作，前面提到过，在<code>准备(Preparation)</code>阶段，会进行一些初始化操作，初始化类变量为零值。而在后续的初始化中，则会对静态变量赋值，并且执行其中的<code>静态块</code>（<code>static</code>关键字声明的代码块）。这部分的初始化只会在类加载时执行，且只执行一次。</p>
+<p>　　而在创建一个类的对象时，也会进行一些初始化操作。下面结合这个来说明一下一个类从加载到创建一个对象，初始化的顺序：</p>
+<ol>
+<li>父类静态变量和静态块，按声明的顺序依次执行（只在类加载时执行一次）。</li>
+<li>子类静态变量和静态初始化块，按声明的顺序依次执行（只在类加载时执行一次）。</li>
+<li>父类的实例变量和实例初始化块，按在代码中出现的顺序依次执行。</li>
+<li>执行父类的构造方法。</li>
+<li>子类实例变量和实例初始化块，按在代码中出现的顺序依次执行。</li>
+<li>执行子类的构造方法。 </li>
+</ol>
+<p>　　下面实践一下：</p>
+<pre><code>class A{
+    static{
+        System.out.println(&quot;super class&#39; static block&quot;);
+    }
+    {
+        System.out.println(&quot;super class&#39; initialization block&quot;);
+    }
+    public A(){
+        System.out.println(&quot;super class&#39; constructor&quot;);
+    }
+}
+class B extends A{
+    static int i;
+    static{
+        System.out.println(&quot;subclass&#39; static block&quot;);
+        System.out.println(i);
+    }
+    static{
+        i=233;
+    }
+    {
+        System.out.println(&quot;subclass&#39; initialization block&quot;);
+    }
+    public B(){
+        System.out.println(&quot;subclass&#39; constructor&quot;);
+    }
+}
+
+public class Init {
+    public static void main(String[] args){
+        new B();
+    }
+}
+</code></pre><p>　　结果：</p>
+<pre><code>super class&#39; static block
+subclass&#39; static block
+0
+super class&#39; initialization block
+super class&#39; constructor
+subclass&#39; initialization block
+subclass&#39; constructor
+</code></pre><p>　　由此可见初始化的顺序是怎样的。其中，在子类<code>B</code>中，打印<code>i</code>的代码块在赋值之前，所以，打印出来的是在准备阶段初始化的零值，而不是233。</p>
+<h1 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h1><p>　　其实也说不上什么技巧，只是对类加载机制的一些应用。</p>
+<p>　　第一个，在基本库中，有几个自定义的类加载器，其中，有一个叫<code>java.net.URLClassLoader</code>，可以通过它来加载指定目录下的类。这样，就可以不需要在运行时指定classpath了，而是可以放在某个目录下，自定义加载，实现类似于插件的功能（Eclipse好像就是使用这种方式的）。具体可以查看这篇博客：<a href="http://www.iteye.com/topic/1113190" target="_blank" rel="noopener">class文件的动态加载</a>。</p>
+<p>　　第二个，在类加载时，进行字节流的解密（加载的是加密过的class文件）。这个技巧有点黑暗了，主要是因为Java很容易被反编译。如果是一些商业机密程序，被人获取的话，很容易被反编译然后被利用。所以，可以通过这种方式，来防止被第三方利用。而加密算法的选择和密钥的存储、分发，就不在这里的讨论范围了。</p>
+<p>　　第三个，我经常使用的，使用静态块进行配置文件的加载和初始化，实现程序的可配置。在Web开发以及一些桌面程序开发中，都会有很多的配置，这最忌讳的就是硬编码到代码中，所以一般会有很多的配置文件（一般是<code>.ini</code>和<code>.xml</code>文件，java中有一个专门干这个的<code>.properties</code>文件以及<code>java.util.Properties</code>类，最近也看到有很多用json做为配置文件和模板的）。而这个配置文件的加载也是一个问题，首先，只加载一次，其次，最好不要手动加载。所以，一个解决方法是，将配置文件的加载和解析放在静态块中，下面是我以前写的武大教务爬虫的一个配置：</p>
+<pre><code>import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.junit.Test;
+
+public final class Address {
+    public static String ip;
+    /**
+     * 验证码地址
+     */
+    public static String captcha;
+    /**
+     * 登录地址
+     */
+    public static String login;
+    /**
+     * 成绩单地址
+     */
+    public static String subjects;
+    /**
+     * 首页,获取姓名
+     */
+    public static String name;
+    static{
+        try {
+            FileInputStream in=new FileInputStream(&quot;ip.properties&quot;);
+            Properties prop=new Properties();
+            prop.load(in);
+
+            ip=prop.getProperty(&quot;ip&quot;);
+            captcha=&quot;http://&quot;+ip+&quot;/servlet/GenImg&quot;;
+            login=&quot;http://&quot;+ip+&quot;/servlet/Login&quot;;
+            subjects=&quot;http://&quot;+ip+&quot;/servlet/Svlt_QueryStuScore?year=0&amp;term=&amp;learnType=&amp;scoreFlag=0&quot;;
+            name=&quot;http://&quot;+ip+&quot;/stu/stu_index.jsp&quot;;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Address(){
+        throw new IllegalAccessError(&quot;You can not new an instance of this class&quot;);
+    }
+}
+</code></pre><p>　　在这个代码中，主要配置的是教务管理系统的IP（有多个，经常会抽风），可以直接通过Address来引用这些配置。当然，这个是很简单的配置，你也可以实现一些更复杂的。</p>
+<hr>
+<p>　　这篇博客从周一开始写，因为课程、作业的问题，一直没有完成，到最后当初的热情和想法都没了，有些地方自己都看不下去了。</p>
+<hr>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 gitcoment -->
+<div id="gitment-comment">
+    <!-- Gitment 评论框 -->
+<div id="container"></div>
+</div>
+<style>
+    #gitment-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'https://w-angler.com/2016/10/28/JVM类加载与一些使用技巧/', // 可选。默认为 location.href
+        owner: 'W-angler',
+        repo: 'w-angler.github.io',
+        oauth: {
+            client_id: 'a3a3061c655fee6007da',
+            client_secret: 'bc80f0e67bf63ff206c2efee14d8c76eb7a53472',
+        },
+    })
+    gitment.render('container')
+</script>
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2016/10/30/位掩码/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/10/18/第三章——antlr小试牛刀/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="W-angler's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        048117wangle@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto:048117wangle@gmail.com" target="_blank" title="与我联系">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        与我联系
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/W-angler" target="_blank" title="github">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">code</i>
+                        
+                        github
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/atom.xml" target="_blank" title="RSS">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">rss_feed</i>
+                        
+                        RSS
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/09/">九月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">十二月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">8</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Antlr/">Antlr<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/JVM/">JVM<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/PLT/">PLT<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/git/">git<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/奇技淫巧/">奇技淫巧<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/科研/">科研<span class="sidebar_archives-count">1</span></a>
+            </li></ul>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/atom.xml" title="RSS">
+                
+                    <i class="material-icons sidebar-material-icons">rss_feed</i>
+                
+                RSS
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">bookmark</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/timeline" title="时间轴">
+                
+                    <i class="material-icons sidebar-material-icons">timeline</i>
+                
+                时间轴
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/gallery" title="相册">
+                
+                    <i class="material-icons sidebar-material-icons">collections</i>
+                
+                相册
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="友情链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友情链接
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                关于
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">14</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/wangler0408" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+        <a href="https://plus.google.com/101029110222735975086" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-gplus">
+                <span class="visuallyhidden">Google Plus</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/W-angler" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+        <a href="https://cn.linkedin.com/in/%E9%B9%8F%E7%A8%8B-%E6%B1%AA-6332a5121" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-linkedin">
+                <span class="visuallyhidden">LinkedIn</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year=""></span>&nbsp;年轻人啊不要熬夜
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//js/lazyload.min.js", true)</script>
+
+
+
+    <script>lsloader.load("js_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//js/js.min.js", true)</script>
+
+
+
+    <script>lsloader.load("np_js","https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script>lsloader.load("sm_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//js/smoothscroll.js", true)</script>
+    
+
+
+
+
+
+
+
+   <!-- Gitment -->
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+    
+        
+            <script>lsloader.load("prettify_js","https://cdn.bootcss.com/prettify/r298/prettify.min.js", true)</script>
+        
+    
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 2016;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

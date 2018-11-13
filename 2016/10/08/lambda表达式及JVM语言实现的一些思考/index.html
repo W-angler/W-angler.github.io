@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.6 -->
+    <script>
+        window.materialVersion = "1.5.6"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0',
+            '1.5.2',
+            '1.5.5'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source/">
+
+
+
+
+
+    <link rel="dns-prefetch" href="https://imsun.github.io">
+
+
+
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+
+
+    <link rel="dns-prefetch" href="https://lib.baomitu.com">
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            lambda表达式及JVM语言实现的一些思考 | 
+        
+        年轻人啊不要熬夜
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.jpg">
+    <link rel="icon" href="/img/favicon.jpg">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" itemprop="description" content="">
+    <meta name="keywords" content=",Java,JVM,虚拟机">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/material.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/style.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+            
+                <style id="prettify_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/prettify.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+                <style id="prettify_theme"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("prettify_theme","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/prettify/tomorrow-night-eighties.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+            
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <style>
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            src: url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.eot);
+            src: local('Roboto'),local('Roboto-Normal'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.eot?#iefix) format('embedded-opentype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.woff2) format('woff2'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.woff) format('woff'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.ttf) format('truetype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-300.svg#Roboto) format('svg')
+        }
+
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: regular;
+            src: url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.eot);
+            src: local('Roboto'),local('Roboto-Normal'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.eot?#iefix) format('embedded-opentype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.woff2) format('woff2'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.woff) format('woff'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.ttf) format('truetype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-regular.svg#Roboto) format('svg')
+        }
+
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            src: url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.eot);
+            src: local('Roboto'),local('Roboto-Normal'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.eot?#iefix) format('embedded-opentype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.woff2) format('woff2'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.woff) format('woff'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.ttf) format('truetype'),url(https://lib.baomitu.com/fonts/roboto/roboto-v15-latin-500.svg#Roboto) format('svg')
+        }
+    </style>
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//css/material-icons.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="年轻人啊不要熬夜">
+    <meta name="msapplication-starturl" content="https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="年轻人啊不要熬夜">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/img/favicon.jpg">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+        
+            <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="lambda表达式及JVM语言实现的一些思考 | 年轻人啊不要熬夜">
+    <meta property="og:image" content="/img/favicon.jpg">
+    <meta property="og:description" content="">
+    <meta property="og:article:tag" content="Java"> <meta property="og:article:tag" content="JVM"> <meta property="og:article:tag" content="虚拟机"> 
+
+    
+        <meta property="article:published_time" content="Sat Oct 08 2016 00:17:15 GMT+0800">
+        <meta property="article:modified_time" content="Mon Apr 02 2018 00:24:54 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html",
+    "headline": "lambda表达式及JVM语言实现的一些思考",
+    "datePublished": "Sat Oct 08 2016 00:17:15 GMT+0800",
+    "dateModified": "Mon Apr 02 2018 00:24:54 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "W-angler",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.jpg"
+        },
+        "description": "A monad is just a monoid in the category of endofunctors, what's the problem?"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "年轻人啊不要熬夜",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.jpg"
+        }
+    },
+    "keywords": ",Java,JVM,虚拟机",
+    "description": "",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+        <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-89109775-1', 'auto');ga('send', 'pageview');
+</script>
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span id="MD-burger-id" class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Lambda-Expression"><span class="post-toc-number">1.</span> <span class="post-toc-text">Lambda Expression</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#java-8中的lambda表达式"><span class="post-toc-number">2.</span> <span class="post-toc-text">java 8中的lambda表达式</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#java-8的lambda表达式的局限性"><span class="post-toc-number">3.</span> <span class="post-toc-text">java 8的lambda表达式的局限性</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#其他语言的lambda-表达式比较"><span class="post-toc-number">4.</span> <span class="post-toc-text">其他语言的lambda 表达式比较</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#JVM其他语言的一些实现以及思考"><span class="post-toc-number">5.</span> <span class="post-toc-text">JVM其他语言的一些实现以及思考</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                lambda表达式及JVM语言实现的一些思考
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar">
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>W-angler</strong>
+        <span>10月 08, 2016</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAADeUlEQVR42u3aQY7jMAwEwPz/07vXBbJRmqSk8QDlUwB7ZLvm0KbI1x/HP8cLAQ4cOHDgwIEDBw4cD+Z4xcd/Flpe+f67eryv82m1ybvgwIEDB44THF+iaHlN/nC9l8mfqvcuOHDgwIHjHEc1Mj+hrMnW95r/A/JrcODAgQPHcziqEOs79qI0OYsDBw4cOH4XR0KQ/64Wb48LWhw4cODA0dpQ6zWBEr48OHuxjQMHDhw4bnL0xgue+fvqfAcOHDhw4HjjqB5JmM3js9qCGr0RDhw4cODYypEH1XxAYTKuPTn7BRQHDhw4cGzlyBs2OcfeZtW5NhUOHDhw4DjBMR+Vy6O3OmZXDelmqYkDBw4cOLZynBs+qA4cJHD5p0AS2Dhw4MCB4wRHr1hKbjNhzUcrcmIcOHDgwPFTHPnjToq3yQhFr9Qsbw7iwIEDB44Wx6Scy1+g97g5a1Sq4cCBAweOKxyTjbxJU6q3ZnUrMPon4cCBAweOrRy9bcHqqNx6/cm2YH7f8ncHDhw4cOBocczbRfkmXS+G81ZTTokDBw4cOO5w9MKsylENwur2X3ljEQcOHDhwbOWYR2x1Cy+/e69NVd5SxIEDBw4cBzjywbje0EDvlXahl4MWBw4cOHCMOXo3S8qqXsTmDaRemwoHDhw4cNzh6DWZeo2fXoto1ycCDhw4cOA4zVEdJshRqjHZfKU8VpOgxYEDBw4cY45k6eTshDK/ZtIww4EDBw4cpznm5VlyywlffjYfnsOBAwcOHHc4yhEVb+rlAdn728kz4MCBAweOvRzzcqhw43gTMI/M3nAeDhw4cOA4x1FtDu0q2Koc60hOir3mdwcOHDhw4GhxJEtP+JKV80CdD+ThwIEDB47THMlGW7X0moy+lTf44k8BHDhw4MBxkyMP1F3RWBg7GKz5BR0HDhw4cBzm2HabrQNtk6JuFLQ4cODAgaPIUT16QPnoQ6+MTOBw4MCBA8cdjmpQzR8iHz5YQ1dLwfJAAw4cOHDgGHDk7Z8kAncNIiTNpyNBiwMHDhw4rgw09KIxCcteo2vS1sKBAwcOHE/jKMTYIBSrYV9tYuHAgQMHjudw9Jh6Z6tlZLUxhgMHDhw4znEkhdZ8GKLaZOoVgZfaTjhw4MCBYzzQ0NuGy4u9ScxXIXDgwIEDxwkOBw4cOHDgwIEDBw4cOB52/AWpX+0Gws/J4gAAAABJRU5ErkJggg==">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/JVM/">JVM</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Java/">Java</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/虚拟机/">虚拟机</a>
+    </li></ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=lambda表达式及JVM语言实现的一些思考&url=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html&pic=https://w-angler.com/img/favicon.jpg&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=lambda表达式及JVM语言实现的一些思考&url=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html&via=W-angler" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+        <a class="post_share-link" href="https://www.linkedin.com/shareArticle?mini=true&url=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html&title=lambda表达式及JVM语言实现的一些思考" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 LinkedIn
+            </li>
+        </a>
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=年轻人啊不要熬夜&title=lambda表达式及JVM语言实现的一些思考&summary=&pics=https://w-angler.com/img/favicon.jpg&url=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+        <a class="post_share-link" href="https://telegram.me/share/url?url=https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/index.html&text=lambda表达式及JVM语言实现的一些思考" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Telegram
+            </li>
+        </a>
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p><code>Java 8</code>是一个激动人心的版本。</p>
+<p>在基本类库上，JDK的很多api都进行了很大的改进，性能也有了很大的提升，特别是<code>HashMap</code>和新的<code>Time API</code>。而语法层面，应该是Java 5之后，特性增加最多的一个版本，接口的default方法、静态方法等等，还有就是，<code>lambda表达式</code>，以及引申出来的stream API、函数式接口、函数引用等。</p>
+<p>Java王国里<code>动词</code>的地位终于有了提升。</p>
+<hr>
+<p><strong>注：</strong></p>
+<p>Java王国的名词动词，这个典故来自大神<code>Steve Yegge</code>的博客：<a href="http://steve-yegge.blogspot.jp/2006/03/execution-in-kingdom-of-nouns.html" target="_blank" rel="noopener">Execution in the Kingdom of Nouns </a>，附上一篇中文翻译：<a href="https://my.oschina.net/justjavac/blog/68536" target="_blank" rel="noopener">名词王国里的死刑</a>。</p>
+<p>暑假拜读了<code>Steve Yegge</code>的<code>《程序员的呐喊》</code>，书中也有这篇博文，读后受益匪浅。</p>
+<hr>
+<h1 id="Lambda-Expression"><a href="#Lambda-Expression" class="headerlink" title="Lambda Expression"></a>Lambda Expression</h1><p><code>Lambda Expression</code>，是一个<code>函数式编程（Functional Programming）</code>的概念，基于数学中的<code>λ演算（Lambda Calculus</code>）（具体概念可查看这个<a href="http://cgnail.github.io/tags/#lambda%E6%BC%94%E7%AE%97" target="_blank" rel="noopener">博客</a>，了解一下 ），在理论中，lambda表达式就是<code>λ演算</code>，而涉及到特定的某个编程语言时，可以看做是<code>匿名函数</code>（或者<code>闭包</code>）。λ演算在数学和计算机领域都有着很重要的地位，它基于很简单的几条定理，而推导出来的结论却可以完成任何可计算问题，也就是说，λ演算很简单，但却是<code>图灵完备</code>的。很多的函数式编程语言都起源于λ演算，例如<code>Haskell</code>、<code>Lisp</code>及其方言<code>Scheme</code>、<code>Clojure</code>等等。</p>
+<p><code>λ演算</code>的<code>BNF范式</code>表达:</p>
+<pre><code>&lt;expression&gt; ::= &lt;identifier&gt;
+&lt;expression&gt; ::= (λ &lt;identifier&gt; . &lt;expression&gt;)
+&lt;expression&gt; ::= (&lt;expression&gt; &lt;expression&gt;)
+</code></pre><p>例子：</p>
+<pre><code>(lambda x . plus x x) y
+</code></pre><hr>
+<h1 id="java-8中的lambda表达式"><a href="#java-8中的lambda表达式" class="headerlink" title="java 8中的lambda表达式"></a>java 8中的lambda表达式</h1><p><code>java 8</code>中加入的lambda表达式，总体来说，还不成熟，限制还很多，但同时让人感到很惊艳，因为这次不是像<code>java泛型</code>那样的<code>语法糖</code>，而是真的在<code>字节码</code>上对lambda提供了支持。在java 8出来之前，人们一直猜测，<code>Oracle</code>可能只是用一个语法糖将<code>匿名内部类</code>包装成lambda表达式，但结果却是使用java 7添加的<code>invokedynamic</code>指令，让人感受到满满的诚意（却也依然不能改变因为Oracle告Google的Android侵权留下的坏印象）。这样做的好处是，以后对lambda表达式进行改进时，可以不像泛型那样受到兼容性的影响，而且，不采取匿名内部类的方式，可以提高很多的性能（因为使用匿名内部类的话，JVM进行类加载需要花费较多的时间）。</p>
+<p>lambda表达式带来的不仅仅是语法层面的美观，对于代码的可读性也有很大的帮助。</p>
+<p>以一个简单的打印列表内所有元素的例子为例。</p>
+<p>在java 8之前，需要这么写：</p>
+<pre><code>List&lt;String&gt; list=new ArrayList&lt;&gt;();
+//balabala,add some items
+//method one
+for(int i=0;i&lt;list.size();i++){
+    System.out.println(list.get(i));
+}
+//method two
+for(String li:list){
+    System.out.println(li);
+}
+</code></pre><p>而加入lambda后：</p>
+<pre><code>//method one
+list.forEach(e-&gt;System.out.println(e));
+//method two,use function reference
+list.forEach(System.out::println);
+//done,cool!
+</code></pre><p>是不是可以少很多代码，而且可读性也提高了不少？</p>
+<p>当然，这种提升对于Python、JavaScript等语言来说可能根本不屑，但考虑到Java一直以来的臃肿和繁琐，引入函数式编程可以说是很大的一个进步了。</p>
+<hr>
+<h1 id="java-8的lambda表达式的局限性"><a href="#java-8的lambda表达式的局限性" class="headerlink" title="java 8的lambda表达式的局限性"></a>java 8的lambda表达式的局限性</h1><p>前面说过，java 8的lambda表达式还不成熟，还有很多的局限性。</p>
+<ul>
+<li>lambda表达式只适用于<code>函数式接口</code>，就是显式或者非显式添加了<code>@FunctionalInterface</code>注解，且只有<code>一个</code>非静态、非default的函数的接口（例如<code>Runnable</code>）。就是说，要想真正使用lambda表达式，你必须先有一个函数式接口（好像还是只有名词的感觉，函数依然要依赖于类），无法做到真正的匿名函数。不过好在JDK里添加了许多内置的函数式接口在包<code>java.util.function</code>下，目前来说还是可以满足开发需求的。</li>
+<li>在lambda内访问的变量必须是<code>final</code>的，或者说语义上是<code>final</code>的，也就是说，lambda表达式必须是语义上不改变外部变量的。</li>
+<li>过度依赖于基本类库。<code>Stream API</code>，加强版的<code>Collections Framework</code>，等等，lambda的使用，还是很依赖于类库的实现，而不是语法。</li>
+</ul>
+<p>总而言之，lambda表达式是一个很大的提升，但目前依然是：<code>语法跟不上脚步，靠类库硬撑</code>。</p>
+<hr>
+<h1 id="其他语言的lambda-表达式比较"><a href="#其他语言的lambda-表达式比较" class="headerlink" title="其他语言的lambda 表达式比较"></a>其他语言的lambda 表达式比较</h1><p>lambda表达式并不是函数式语言的专利，很多非函数式语言也加入了函数式编程的支持。</p>
+<p><code>C#</code>：C#应该是语法特性很多、写起来特别爽的一个语言（毕竟巨硬亲儿子）。在<code>3.0</code>版本中，C#加入了对lambda的支持。它的具体实现是怎样的我不怎么清楚，但是因为<code>CLR</code>原生支持<code>delegate</code>，所以其实现应该比Java的lambda优美得多吧。C#的lambda表达式，用的比较多，应该是和linq一起使用吧（简直不要太爽）。</p>
+<p>例子：</p>
+<pre><code>/*items is a list*/
+//linq
+var result=from item in items 
+            where item.property&gt;233
+            select item;
+//lambda
+var result=items.Where(item=&gt;item.property&gt;233);
+</code></pre><p><code>C++</code>：<code>C++ 11</code>中加入了lambda表达式，但是我感觉有点鸡肋，基本都用不上，而且很复杂（可能是我太菜了）。</p>
+<p>例子：</p>
+<pre><code>int hhh=233;
+auto f=[hhh](int x){return hhh+x;};
+</code></pre><p><code>Python</code>：<code>Python</code>是个很优雅的语言，但是它的lambda表达式我真的很想吐槽，只是一个阉割版的：只能写一行……虽然在知乎上可以看到很多一行Python实现的各种神奇代码（链接：<a href="https://www.zhihu.com/question/37046157" target="_blank" rel="noopener">一行 Python 能实现什么丧心病狂的功能？</a>），但是平时你会去想这些trick吗？如果需要在lambda表达式中进行比较复杂的操作，就必须先写个复杂函数来进行这些操作。虽然Python有<code>函数对象</code>，但是这样设计lambda表达式真的好吗？</p>
+<p>例子：</p>
+<pre><code>list=[x for x in range(1,233)]
+for n in map(lambda x:x**2,list):
+    print(n)
+</code></pre><p><code>Groovy</code>：<code>Groovy</code>是我学习的第二个JVM上的语言，语法很像Python，和java完全兼容，动态语言和静态语言相结合的写法比单纯的动态语言要好多了（动态语言的<code>类型推导</code>是个坑啊，所以目前IDE的代码提示都做不到很智能，即使是<code>PyCharm</code>这样的）。在Groovy中，lambda表达式是以闭包的形式体现的（JavaScript天生支持的hhh）。</p>
+<p>例子：</p>
+<pre><code>def list=1..10
+list.each({x-&gt;print x})
+//或者
+list.each{
+    print it
+}
+</code></pre><p><strong>函数式语言的实现。</strong></p>
+<p><code>Common Lisp</code>：这个是我学习的第一个函数式语言，一开始看着那些括号真的是让人头大，就像别人评价的，简直就像是直接在写<code>语法树</code>（呃，其实这个也算是Lisp的一个优点吧）。Lisp用的是<code>前缀表达式</code>，很像编译时生成的中间代码的<code>四元式</code>（<code>三元式</code>）。</p>
+<p>感受一下这个语法树一般的语法：</p>
+<pre><code>(+ 1 2 3 4)
+或者更像语法树的写法
+(+(+ (+ 1 2) 3)4)
+</code></pre><hr>
+<h1 id="JVM其他语言的一些实现以及思考"><a href="#JVM其他语言的一些实现以及思考" class="headerlink" title="JVM其他语言的一些实现以及思考"></a>JVM其他语言的一些实现以及思考</h1><p>这个部分的灵感很大一部分来源于一篇博文：<a href="http://blog.takipi.com/the-dark-side-of-lambda-expressions-in-java-8/" target="_blank" rel="noopener">The Dark Side Of Lambda Expressions in Java 8</a>。虽然原文作者对于lambda表达式的看法其实是有一些错误的 （原博的评论可以看到），但对于JVM上其他语言的实现的思考却很不错。</p>
+<blockquote>
+</blockquote>
+<p>The JVM was built to be language agnostic in the sense that it can execute code written in any language, as long as it can be translated into bytecode. The bytecode specification itself is fully OO, and was designed to closely match the Java language. That means that bytecode compiled from Java source will pretty much resemble it structurally.</p>
+<blockquote>
+</blockquote>
+<p>But the farther away you get from Java – the more that distance grows. When you look at Scala which is a functional language, the distance between the source code and the executed bytecode is pretty big. Large amounts of synthetic classes, methods and variables are added by the compiler to get the JVM to execute the semantics and flow controls required by the language.</p>
+<p>Java是一个完全<code>面向对象</code>的语言（抛开它的<code>原始类型</code>不谈），而<code>JVM平台</code>的<code>字节码规范</code>也是完全面向对象，这就意味着，从Java源码编译到字节码时，<code>语义</code>和<code>结构</code>上基本上是相符合的，不会有太大改变。</p>
+<p>但是像<code>Groovy</code>这种动态语言、<code>Clojure</code>这种Lisp方言、<code>Scala</code>这种完美结合面向对象和函数式编程思想的语言……从源码到到字节码的差异是很大的，就是说，你必须用面向对象的方法来实现动态语言、函数式语言的特性，这就需要添加很多中间层来抹平这两者间的差异，也就是说需要很复杂的运行时来支持这些特性。</p>
+<p>以Groovy为例，查看出现异常时它的栈轨。</p>
+<p><code>test.groovy</code>:</p>
+<pre><code>def check(String s) {
+    if (s.equals(&quot;&quot;)) {
+        throw new IllegalArgumentException()
+    }
+}
+def hhh=[&quot;lambda&quot;,&quot;&quot;,&quot;groovy&quot;]
+hhh.each{
+    check it
+}
+</code></pre><p>以debug模式运行的<code>栈轨</code>：</p>
+<pre><code>&gt;groovy --debug test.groovy
+Caught: java.lang.IllegalArgumentException
+java.lang.IllegalArgumentException
+    at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+    at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+    at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+    at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+    at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:83)
+    at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:105)
+    at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:60)
+    at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:235)
+    at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:239)
+    at test.check(test.groovy:3)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:498)
+    at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
+    at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
+    at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:384)
+    at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1024)
+    at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(PogoMetaClassSite.java:69)
+    at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:166)
+    at test$_run_closure1.doCall(test.groovy:10)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:498)
+    at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
+    at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
+    at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:294)
+    at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1024)
+    at groovy.lang.Closure.call(Closure.java:414)
+    at groovy.lang.Closure.call(Closure.java:430)
+    at org.codehaus.groovy.runtime.DefaultGroovyMethods.each(DefaultGroovyMethods.java:2030)
+    at org.codehaus.groovy.runtime.DefaultGroovyMethods.each(DefaultGroovyMethods.java:2015)
+    at org.codehaus.groovy.runtime.DefaultGroovyMethods.each(DefaultGroovyMethods.java:2056)
+    at org.codehaus.groovy.runtime.dgm$162.invoke(Unknown Source)
+    at org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite$PojoMetaMethodSiteNoUnwrapNoCoerce.invoke(PojoMetaMethodSite.java:274)
+    at org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite.call(PojoMetaMethodSite.java:56)
+    at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
+    at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:113)
+    at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+    at test.run(test.groovy:9)
+    at groovy.lang.GroovyShell.runScriptOrMainOrTestOrRunnable(GroovyShell.java:263)
+    at groovy.lang.GroovyShell.run(GroovyShell.java:518)
+    at groovy.lang.GroovyShell.run(GroovyShell.java:507)
+    at groovy.ui.GroovyMain.processOnce(GroovyMain.java:653)
+    at groovy.ui.GroovyMain.run(GroovyMain.java:384)
+    at groovy.ui.GroovyMain.process(GroovyMain.java:370)
+    at groovy.ui.GroovyMain.processArgs(GroovyMain.java:129)
+    at groovy.ui.GroovyMain.main(GroovyMain.java:109)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:498)
+    at org.codehaus.groovy.tools.GroovyStarter.rootLoader(GroovyStarter.java:109)
+    at org.codehaus.groovy.tools.GroovyStarter.main(GroovyStarter.java:131)
+</code></pre><p>用<code>groovyc</code>命令编译<code>test.groovy</code>脚本，得到<code>test.class</code>和<code>test$_run_closure1.class</code>。再用<code>javap</code>命令进行反编译，得到以下结果：</p>
+<pre><code>&gt;javap -p test.class
+Compiled from &quot;test.groovy&quot;
+public class test extends groovy.lang.Script {
+    private static org.codehaus.groovy.reflection.ClassInfo $staticClassInfo;
+    public static transient boolean __$stMC;
+    private static java.lang.ref.SoftReference $callSiteArray;
+    public test();
+    public test(groovy.lang.Binding);
+    public static void main(java.lang.String...);
+    public java.lang.Object run();
+    public java.lang.Object check(java.lang.String);
+    protected groovy.lang.MetaClass $getStaticMetaClass();
+    private static void $createCallSiteArray_1(java.lang.String[]);
+    private static org.codehaus.groovy.runtime.callsite.CallSiteArray $createCallSiteArray();
+    private static org.codehaus.groovy.runtime.callsite.CallSite[] $
+    getCallSiteArray();
+}
+
+&gt;javap -p test$_run_closure1.class
+Compiled from &quot;test.groovy&quot;
+public class test$_run_closure1 extends groovy.lang.Closure implements org.codehaus.groovy.runtime.GeneratedClosure {
+    private static org.codehaus.groovy.reflection.ClassInfo $staticClassInfo;
+    public static transient boolean __$stMC;
+    private static java.lang.ref.SoftReference $callSiteArray;
+    public test$_run_closure1(java.lang.Object, java.lang.Object);
+    public java.lang.Object doCall(java.lang.Object);
+    public java.lang.Object doCall();
+    protected groovy.lang.MetaClass $getStaticMetaClass();
+    private static void $createCallSiteArray_1(java.lang.String[]);
+    private static org.codehaus.groovy.runtime.callsite.CallSiteArray $createCallSiteArray();
+    private static org.codehaus.groovy.runtime.callsite.CallSite[] $getCallSiteArray();
+}
+</code></pre><p>从中我们可以看出，groovy脚本在运行时，编译成的是一个继承自<code>groovy.lang.Script</code>的类，而其中的闭包则是编译为一个继承自<code>groovy.lang.Closure</code>的内部类，运行时，通过<code>org.codehaus.groovy.tools.GroovyStarter</code>的main方法启动，然后<code>类加载器</code>加载生成的类，然后运行。</p>
+<p>从<code>debug模式</code>的栈轨可以看出，运行一个groovy脚本，其中经历了很多层次的调用，而主要的都是<code>groovy运行时（runtime）</code>的调用，可见groovy运行时的复杂程度.</p>
+<p>这个给我们的思考是，如果<code>JVM</code>不在字节码层面进行妥协的话，那么在<code>JVM</code>上实现的语言就必须编写很复杂的运行时环境来支持其与完全面向对象的字节码的差异。</p>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 gitcoment -->
+<div id="gitment-comment">
+    <!-- Gitment 评论框 -->
+<div id="container"></div>
+</div>
+<style>
+    #gitment-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'https://w-angler.com/2016/10/08/lambda表达式及JVM语言实现的一些思考/', // 可选。默认为 location.href
+        owner: 'W-angler',
+        repo: 'w-angler.github.io',
+        oauth: {
+            client_id: 'a3a3061c655fee6007da',
+            client_secret: 'bc80f0e67bf63ff206c2efee14d8c76eb7a53472',
+        },
+    })
+    gitment.render('container')
+</script>
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2016/10/09/ANTLR文档（中文简体）——前言/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/10/07/关于翻译Antlr文档的计划/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="W-angler's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        048117wangle@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto:048117wangle@gmail.com" target="_blank" title="与我联系">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        与我联系
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="https://github.com/W-angler" target="_blank" title="github">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">code</i>
+                        
+                        github
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/atom.xml" target="_blank" title="RSS">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">rss_feed</i>
+                        
+                        RSS
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/09/">九月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">十二月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">8</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Antlr/">Antlr<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/JVM/">JVM<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/PLT/">PLT<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/git/">git<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/奇技淫巧/">奇技淫巧<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/科研/">科研<span class="sidebar_archives-count">1</span></a>
+            </li></ul>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/atom.xml" title="RSS">
+                
+                    <i class="material-icons sidebar-material-icons">rss_feed</i>
+                
+                RSS
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">bookmark</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/timeline" title="时间轴">
+                
+                    <i class="material-icons sidebar-material-icons">timeline</i>
+                
+                时间轴
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/gallery" title="相册">
+                
+                    <i class="material-icons sidebar-material-icons">collections</i>
+                
+                相册
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="友情链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友情链接
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                关于
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">14</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/wangler0408" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+        <a href="https://plus.google.com/101029110222735975086" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-gplus">
+                <span class="visuallyhidden">Google Plus</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/W-angler" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+        <a href="https://cn.linkedin.com/in/%E9%B9%8F%E7%A8%8B-%E6%B1%AA-6332a5121" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-linkedin">
+                <span class="visuallyhidden">LinkedIn</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+
+    <!-- V2EX -->
+    
+
+    <!-- Segmentfault -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;<span year=""></span>&nbsp;年轻人啊不要熬夜
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//js/lazyload.min.js", true)</script>
+
+
+
+    <script>lsloader.load("js_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//js/js.min.js", true)</script>
+
+
+
+    <script>lsloader.load("np_js","https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script>lsloader.load("sm_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@1.5.6/source//js/smoothscroll.js", true)</script>
+    
+
+
+
+
+
+
+
+   <!-- Gitment -->
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+    
+        
+            <script>lsloader.load("prettify_js","https://cdn.bootcss.com/prettify/r298/prettify.min.js", true)</script>
+        
+    
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+        
+            $(function() {
+                $('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+                prettyPrint();
+                })
+        
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    var copyrightNow = new Date().getFullYear();
+    var textContent = document.querySelector('span[year]')
+
+    copyrightSince = 2016;
+    if (copyrightSince === copyrightNow||copyrightSince === 0000) {
+        textContent.textContent = copyrightNow
+    } else {
+        textContent.textContent = copyrightSince + ' - ' + copyrightNow
+    }
+
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.6 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
